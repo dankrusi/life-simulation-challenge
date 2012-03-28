@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{355C13A8-6429-449A-A721-BC55149151D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnakeRace", "Races\SnakeRace\SnakeRace.csproj", "{A27F2F92-D472-4ABA-998F-2DBDA70D0BDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomRace", "Races\RandomRace\RandomRace.csproj", "{3FFEAADD-036F-442E-825D-42D160F28571}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CannibalRace", "Races\CannibalRace\CannibalRace.csproj", "{4307BEFD-6E97-4869-A844-7F9995A2C393}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{355C13A8-6429-449A-A721-BC55149151D1}.Debug|x86.ActiveCfg = Debug|x86
+		{355C13A8-6429-449A-A721-BC55149151D1}.Debug|x86.Build.0 = Debug|x86
+		{355C13A8-6429-449A-A721-BC55149151D1}.Release|x86.ActiveCfg = Release|x86
+		{355C13A8-6429-449A-A721-BC55149151D1}.Release|x86.Build.0 = Release|x86
+		{3FFEAADD-036F-442E-825D-42D160F28571}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3FFEAADD-036F-442E-825D-42D160F28571}.Debug|x86.Build.0 = Debug|Any CPU
+		{3FFEAADD-036F-442E-825D-42D160F28571}.Release|x86.ActiveCfg = Release|Any CPU
+		{3FFEAADD-036F-442E-825D-42D160F28571}.Release|x86.Build.0 = Release|Any CPU
+		{4307BEFD-6E97-4869-A844-7F9995A2C393}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4307BEFD-6E97-4869-A844-7F9995A2C393}.Debug|x86.Build.0 = Debug|Any CPU
+		{4307BEFD-6E97-4869-A844-7F9995A2C393}.Release|x86.ActiveCfg = Release|Any CPU
+		{4307BEFD-6E97-4869-A844-7F9995A2C393}.Release|x86.Build.0 = Release|Any CPU
+		{A27F2F92-D472-4ABA-998F-2DBDA70D0BDD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A27F2F92-D472-4ABA-998F-2DBDA70D0BDD}.Debug|x86.Build.0 = Debug|Any CPU
+		{A27F2F92-D472-4ABA-998F-2DBDA70D0BDD}.Release|x86.ActiveCfg = Release|Any CPU
+		{A27F2F92-D472-4ABA-998F-2DBDA70D0BDD}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Core\Core.csproj
+	EndGlobalSection
+EndGlobal

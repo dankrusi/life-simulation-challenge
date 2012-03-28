@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{355C13A8-6429-449A-A721-BC55149151D1}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>LifeSimulation.Core</RootNamespace>
+    <AssemblyName>LifeSimulation</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="Simulation\Config.cs" />
+    <Compile Include="Simulation\Food.cs" />
+    <Compile Include="Simulation\Lifelet.cs" />
+    <Compile Include="Simulation\Message.cs" />
+    <Compile Include="Simulation\World.cs" />
+    <Compile Include="Util\Vector.cs" />
+    <Compile Include="Util\LoopList.cs" />
+    <Compile Include="Old\PlagueLife.cs" />
+    <Compile Include="Old\RandomLife.cs" />
+    <Compile Include="Old\ShyLife.cs" />
+    <Compile Include="Old\SocialiteLife.cs" />
+    <Compile Include="GUI\Viewport.cs" />
+    <Compile Include="GUI\StartScreen.cs" />
+    <Compile Include="GUI\App.cs" />
+    <Compile Include="Util\Math2.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Simulation\Obstacle.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Old\" />
+    <Folder Include="Util\" />
+  </ItemGroup>
+</Project>
