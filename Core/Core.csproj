@@ -39,10 +39,6 @@
     <Compile Include="Simulation\World.cs" />
     <Compile Include="Util\Vector.cs" />
     <Compile Include="Util\LoopList.cs" />
-    <Compile Include="Old\PlagueLife.cs" />
-    <Compile Include="Old\RandomLife.cs" />
-    <Compile Include="Old\ShyLife.cs" />
-    <Compile Include="Old\SocialiteLife.cs" />
     <Compile Include="GUI\Viewport.cs" />
     <Compile Include="GUI\StartScreen.cs" />
     <Compile Include="GUI\App.cs" />
@@ -56,7 +52,6 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Old\" />
     <Folder Include="Util\" />
   </ItemGroup>
 </Project>
