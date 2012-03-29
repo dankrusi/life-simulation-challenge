@@ -11,11 +11,14 @@ namespace LifeSimulation.Core.GUI
 		
 		#region Private Variables
 		
+        // GUI
 		private System.Timers.Timer _timer;
+        private Point _offset;
+        private Point _mousePressLocation;
+        private bool _mousePressed = false;
+
+        // Data
 		private World _world;
-		private Point _offset;
-		private Point _mousePressLocation;
-		private bool _mousePressed = false;
 		
 		#endregion
 		
@@ -27,8 +30,9 @@ namespace LifeSimulation.Core.GUI
 		{
 			// GUI
 			this.Width = Config.DisplayInitialWidth;
-			this.Height = Config.DisplayInitialHeight; 
-			
+			this.Height = Config.DisplayInitialHeight;
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.DoubleBuffer, true); // Enable double buffering
+
 			// Show version
 			Version v = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
 			this.Text = "Life Simulation - Version " + v.Major + "." + v.Minor + " Build " + v.Build;
@@ -126,7 +130,7 @@ namespace LifeSimulation.Core.GUI
 			
 			// Tell GUI backend to repaint
 			//BUG: Cocoa always draws in a different thread so this will cause problems on Intel Macs...
-			this.Refresh();
+            this.Invalidate();
 	    }
 		
 		#endregion

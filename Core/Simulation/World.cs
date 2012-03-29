@@ -261,15 +261,7 @@ namespace LifeSimulation.Core
 				}
 				infos += "\n";
 			}
-			
-			// Draw debug infos
-			if(infos != "") {
-				System.Drawing.Drawing2D.GraphicsContainer gc2 = g.BeginContainer(); {
-					g.ResetTransform();
-					g.DrawString(infos, Config.DisplayTextFont, Config.DisplayTextBrush, new PointF(30,30));
-				} g.EndContainer(gc2);
-			}
-			
+
 			// Draw world boundaries
 			if(Config.Debug) {
 				Pen pen = new Pen(Color.White);
@@ -277,6 +269,16 @@ namespace LifeSimulation.Core
 				g.DrawLine(pen,-Config.DisplayCrosshairSize*3,0,Config.DisplayCrosshairSize*3,0);
 				g.DrawEllipse(pen,-Config.WorldRadius,-Config.WorldRadius,Config.WorldRadius*2,Config.WorldRadius*2);
 			}
+
+            // Draw debug infos - no world drawing after this
+            if (infos != "") {
+                g.ResetTransform(); //NOTE: On Windows this doesnt reset through all the containers, so we do it in the current container and restrict any drawing after
+                System.Drawing.Drawing2D.GraphicsContainer gc2 = g.BeginContainer();
+                {
+                    // g.ResetTransform();
+                    g.DrawString(infos, Config.DisplayTextFont, Config.DisplayTextBrush, new PointF(30, 30));
+                } g.EndContainer(gc2);
+            }
 			
 		}
 		
