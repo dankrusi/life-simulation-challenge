@@ -301,10 +301,18 @@ namespace LifeSimulation.Core
 		#region Public Static Methods
 		
 		public static ArrayList GetAvailableRaces() {
-			
+			// Init
 			ArrayList races = new ArrayList();
+			
+			// Get from bin - this has prio
 			races.AddRange(getAvailableRacesFromFolder("bin"));
-			races.AddRange(getAvailableRacesFromFolder("plugins"));
+			
+			// Get from plugins - only add if new
+			ArrayList plugins = getAvailableRacesFromFolder("plugins");
+			foreach(System.Type type in plugins) {
+				if(races.Contains(type) == false) races.Add(type);
+			}
+			
 			return races;
 		}
 		
