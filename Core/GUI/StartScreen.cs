@@ -52,7 +52,7 @@ namespace LifeSimulation.Core.GUI
 			_layout.Controls.Add(_labelInitialLifelets);
 			_trackbarInitialLifelets = new TrackBar();
 			_trackbarInitialLifelets.Dock = DockStyle.Fill;
-			_trackbarInitialLifelets.Minimum = 10;
+			_trackbarInitialLifelets.Minimum = 1;
 			_trackbarInitialLifelets.Maximum = 1000;
 			_trackbarInitialLifelets.TickStyle = TickStyle.None;
 			_trackbarInitialLifelets.Scroll += new System.EventHandler(trackbarInitialLifelets_Scroll);
@@ -68,7 +68,12 @@ namespace LifeSimulation.Core.GUI
 			// Load races
 			ArrayList races = World.GetAvailableRaces();
 			foreach(Type type in races) _checkedListRaces.Items.Add(type,true);
-			_trackbarInitialLifelets.Value = races.Count * Config.WorldInitialLifeletsPerRace;
+			_trackbarInitialLifelets.Value = (races.Count == 0 ? 1 : races.Count * Config.WorldInitialLifeletsPerRace);
+			
+			// Special cases
+			if(races.Count == 0) {
+				_buttonSimulate.Enabled = false;
+			}
 			
 			// Resume layouting
 			_layout.ResumeLayout(false);

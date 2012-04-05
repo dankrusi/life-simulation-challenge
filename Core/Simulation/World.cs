@@ -307,17 +307,20 @@ namespace LifeSimulation.Core
 			Type lifeletType = Type.GetType("LifeSimulation.Core.Lifelet");
 			
 			// Loop all dll files
-			foreach(string file in System.IO.Directory.GetFiles(System.Windows.Forms.Application.StartupPath,"*.dll")) {
-				
-				// Load the dll
-				System.Reflection.Assembly dll = System.Reflection.Assembly.LoadFrom(file);
-				
-				// Loop all contained types
-				foreach (Type type in dll.GetTypes()) {
+			System.IO.DirectoryInfo binDir = new System.IO.DirectoryInfo(System.Windows.Forms.Application.StartupPath);
+			foreach(System.IO.DirectoryInfo dir in binDir.Parent.GetDirectories("plugins")) {
+				foreach(string file in System.IO.Directory.GetFiles(dir.ToString(),"*.dll")) {
 					
-					// Is this a lifelet?
-					if(type.IsSubclassOf(lifeletType)) races.Add(type);
-
+					// Load the dll
+					System.Reflection.Assembly dll = System.Reflection.Assembly.LoadFrom(file);
+					
+					// Loop all contained types
+					foreach (Type type in dll.GetTypes()) {
+						
+						// Is this a lifelet?
+						if(type.IsSubclassOf(lifeletType)) races.Add(type);
+	
+					}
 				}
 			}
 			return races;
