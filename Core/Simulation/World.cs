@@ -302,13 +302,29 @@ namespace LifeSimulation.Core
 		
 		public static ArrayList GetAvailableRaces() {
 			
+			ArrayList races = new ArrayList();
+			races.AddRange(getAvailableRacesFromFolder("bin"));
+			races.AddRange(getAvailableRacesFromFolder("plugins"));
+			return races;
+		}
+		
+		#endregion
+		
+		
+		
+		
+		
+		#region Private Methods
+		
+		public static ArrayList getAvailableRacesFromFolder(string folder) {
+			
 			// Init
 			ArrayList races = new ArrayList();
 			Type lifeletType = Type.GetType("LifeSimulation.Core.Lifelet");
 			
 			// Loop all dll files
 			System.IO.DirectoryInfo binDir = new System.IO.DirectoryInfo(System.Windows.Forms.Application.StartupPath);
-			foreach(System.IO.DirectoryInfo dir in binDir.Parent.GetDirectories("plugins")) {
+			foreach(System.IO.DirectoryInfo dir in binDir.Parent.GetDirectories(folder)) {
 				foreach(string file in System.IO.Directory.GetFiles(dir.ToString(),"*.dll")) {
 					
 					// Load the dll
@@ -325,14 +341,6 @@ namespace LifeSimulation.Core
 			}
 			return races;
 		}
-		
-		#endregion
-		
-		
-		
-		
-		
-		#region Private Methods
 		
 		private void spawnInitialLifelets() {
 			
