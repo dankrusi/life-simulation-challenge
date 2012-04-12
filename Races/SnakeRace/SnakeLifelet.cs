@@ -42,13 +42,13 @@ namespace LifeSimulation.Races.SnakeRace
 		
 		#region Private Variables
 		
-		private Vector _direction; 			// The current direction of our lifelet
-		private double _speed; 				// Our speed we want
-		private Lifelet _lifeletToFollow;	// The lifelet to follow, forming a snake. If we have none, then we are the leader!
+		private Vector _direction; 					// The current direction of our lifelet
+		private double _speed; 						// Our speed we want
+		private long _lifeletToFollowUID = -1;		// The lifelet to follow, forming a snake. If we have none, then we are the leader!
 		
 		#endregion
 		
-		
+
 		
 		
 		#region Properties - these can be accessed by anyone and are visible on the debug display
@@ -65,7 +65,7 @@ namespace LifeSimulation.Races.SnakeRace
 		/// Gets a value indicating whether this instance is following another or not.
 		/// </summary>
 		public bool IsFollowing {
-			get { return _lifeletToFollow != null; }
+			get { return _lifeletToFollowUID != -1; }
 		}
 		
 		#endregion
@@ -95,12 +95,12 @@ namespace LifeSimulation.Races.SnakeRace
 			// Recieving messages?
 			foreach(Message message in audibleMessages()) { 
 				if(message.Contents == '!') {
-					if(message.Sender.UID < this.UID && (_lifeletToFollow == null || message.Sender.UID > _lifeletToFollow.UID)) {
+					if(message.Sender.UID < this.UID && (_lifeletToFollowUID == -1 || message.Sender.UID > _lifeletToFollowUID)) {
 						// Follow this lifelet
-						_lifeletToFollow = message.Sender;
+						_lifeletToFollowUID = message.Sender.UID;
 					}
 				} else if(message.Contents == 'F') {
-					if(_lifeletToFollow == null) {
+					if(_lifeletToFollowUID == -1) {
 						// Register this message
 						weHeardTalkAboutFood = message;
 					} else {
@@ -110,6 +110,9 @@ namespace LifeSimulation.Races.SnakeRace
 					
 				}
 			}
+			
+			//ShelledLifelet _lifeletToFollow = this.getLifeletByUID(_lifeletToFollowUID);
+			ShelledLifelet _lifeletToFollow = null;	
 			
 			// Are we following the chain?
 			if(_lifeletToFollow != null) {
@@ -157,9 +160,9 @@ namespace LifeSimulation.Races.SnakeRace
 			
 			// Redistribute energy
 			if(this.Energy > 100) {
-				foreach(Lifelet lifelet in visibleLifelets()) {
+				foreach(ShelledLifelet lifelet in visibleLifelets()) {
 					// Only pass down the chain and only to our race
-					if(lifelet != _lifeletToFollow && lifelet.Type == this.Type) {
+					if(lifelet.UID != _lifeletToFollow.UID && lifelet.Type == this.Type) {
 						giveEnergy(lifelet,this.Energy-100);
 						break;
 					}
@@ -181,6 +184,8 @@ namespace LifeSimulation.Races.SnakeRace
 		
 		protected override void debugDraw(Graphics g) {
 			// Draw follow chain
+			ShelledLifelet _lifeletToFollow = this.getLifeletByUID(_lifeletToFollowUID);
+				
 			if(_lifeletToFollow != null) {
 				g.DrawLine(Pens.White,(int)this.X,(int)this.Y,(int)_lifeletToFollow.X,(int)_lifeletToFollow.Y);	
 			}

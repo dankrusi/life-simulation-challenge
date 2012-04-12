@@ -41,8 +41,8 @@ namespace LifeSimulation.Races.CannibalRace
 		
 		#region Private Variables
 		
-		private Lifelet _leader; 		// Cannibal leader
-		private double _speed; 			// Our speed we want
+		private ShelledLifelet _leader; 		// Cannibal leader
+		private double _speed; 					// Our speed we want
 		
 		#endregion
 		
@@ -80,12 +80,12 @@ namespace LifeSimulation.Races.CannibalRace
 			_speed = 1.0;
 			
 			// Initial message to find each other
-			talk('!');
+			//talk('!');
 		}
 		
 		public override void Simulate() {
 			base.Simulate();
-			
+			return;
 			// Recieving messages?
 			foreach(Message message in audibleMessages()) { 
 				if(message.Contents == '!') {
@@ -100,7 +100,7 @@ namespace LifeSimulation.Races.CannibalRace
 				
 				// Eat
 				bool foundSomethingToEat = false;
-				foreach(Lifelet lifelet in visibleLifelets()) {
+				foreach(ShelledLifelet lifelet in visibleLifelets()) {
 					attack(lifelet, 10);
 					this.moveToDestination(lifelet.Position,_speed*3);
 					foundSomethingToEat = true;

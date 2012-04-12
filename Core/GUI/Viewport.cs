@@ -156,7 +156,8 @@ namespace LifeSimulation.Core.GUI
 			
 			// Tell GUI backend to repaint
 			//BUG: Cocoa always draws in a different thread so this will cause problems on Intel Macs...
-            this.Invalidate();
+            //this.Invalidate();
+			this.Refresh();
 	    }
 		
 		#endregion

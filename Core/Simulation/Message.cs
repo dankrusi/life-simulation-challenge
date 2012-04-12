@@ -54,8 +54,8 @@ namespace LifeSimulation.Core
 			get { return (int)(this.Age * Config.MessageAgeToRadiusRatio); }
 		}
 		
-		public Lifelet Sender {
-			get { return _sender; }
+		public ShelledLifelet Sender {
+			get { return _sender.Shell(); }
 		}
 		
 		#endregion

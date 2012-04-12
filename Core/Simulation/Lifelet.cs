@@ -357,10 +357,21 @@ namespace LifeSimulation.Core
 		}
 		
 		/// <summary>
+		/// Measures the distance from this lifelet to another.
+		/// </summary>
+		public double Distance(ShelledLifelet other) {
+			return this.Position.Distance(other.Position);
+		}
+		
+		/// <summary>
 		/// Measures the distance from this lifelet to a specific point.
 		/// </summary>
 		public double Distance(Vector point) {
 			return this.Position.Distance(point);
+		}
+		
+		public ShelledLifelet Shell() {
+			return new ShelledLifelet(this,_world);
 		}
 		
 		#endregion
@@ -374,12 +385,12 @@ namespace LifeSimulation.Core
 		/// <summary>
 		/// Returns the closest visible lifelet.
 		/// </summary>
-		protected Lifelet closestLifelet() {
+		protected ShelledLifelet closestLifelet() {
 			double smallestDist = Double.MaxValue;
-			Lifelet closestLife = null;
-			foreach(Lifelet life in visibleLifelets()) {
+			ShelledLifelet closestLife = null;
+			foreach(ShelledLifelet life in visibleLifelets()) {
 				double dist = life.Distance(this);
-				if(life != this && dist < smallestDist) {
+				if(life.UID != this.UID && dist < smallestDist) {
 					smallestDist = dist;
 					closestLife = life;
 				}
@@ -388,16 +399,26 @@ namespace LifeSimulation.Core
 		}
 		
 		/// <summary>
+		/// Returns the visible lifelet by UID.
+		/// </summary>
+		protected ShelledLifelet getLifeletByUID(long uid) {
+			foreach(ShelledLifelet lifelet in visibleLifelets()) {
+				if(lifelet.UID == uid) return lifelet;
+			}
+			return null;
+		}
+		
+		/// <summary>
 		/// Returns all visible lifelets.
 		/// </summary>
-		protected List<Lifelet> visibleLifelets() {
+		protected List<ShelledLifelet> visibleLifelets() {
 			//TODO: cache this per simulation round
 			
 			// Loop all and find those in range
-			List<Lifelet> ret = new List<Lifelet>();
+			List<ShelledLifelet> ret = new List<ShelledLifelet>();
 			foreach(Lifelet lifelet in _world.Lifelets) {
 				if(lifelet != this && lifelet.Distance(this) < this.Visibility) {
-					ret.Add(lifelet);
+					ret.Add(lifelet.Shell());
 				}
 			}
 			return ret;
@@ -488,7 +509,7 @@ namespace LifeSimulation.Core
 		/// <summary>
 		/// Gives a specific amount of energy to another lifelet.
 		/// </summary>
-		protected void giveEnergy(Lifelet other, double amount) {
+		protected void giveEnergy(ShelledLifelet other, double amount) {
 			
 			// Check delay
 			if(!this.CanGiveEnergy) return;
@@ -496,7 +517,7 @@ namespace LifeSimulation.Core
 			// Make sure we have this energy to give and we are in distance
 			if(this.Energy >= amount && this.Distance(other) < this.Visibility) {
 				_energy -= amount;
-				other.recieveEnergy(this,amount); 
+				_world.UnshellLifelet(other).recieveEnergy(this,amount);
 			}
 			
 		}
@@ -504,7 +525,7 @@ namespace LifeSimulation.Core
 		/// <summary>
 		/// Attacks another lifelet with the given amount of energy.
 		/// </summary>
-		protected void attack(Lifelet other, double amount) {
+		protected void attack(ShelledLifelet other, double amount) {
 			
 			// Check delay
 			if(!this.CanAttack) return;
@@ -512,7 +533,7 @@ namespace LifeSimulation.Core
 			// Make sure we have this energy to give and we are in distance
 			if(this.Energy >= amount && this.Distance(other) < Config.LifeletMaximumAttackRange) {
 				_energy -= amount;
-				other.recieveAttack(this,amount); 
+				_world.UnshellLifelet(other).recieveAttack(this,amount);
 			}
 			
 		}
