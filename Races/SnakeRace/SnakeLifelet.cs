@@ -42,13 +42,13 @@ namespace LifeSimulation.Races.SnakeRace
 		
 		#region Private Variables
 		
-		private Vector _direction; 			// The current direction of our lifelet
-		private double _speed; 				// Our speed we want
-		private Lifelet _lifeletToFollow;	// The lifelet to follow, forming a snake. If we have none, then we are the leader!
+		private Vector _direction; 					// The current direction of our lifelet
+		private double _speed; 						// Our speed we want
+		private long _lifeletToFollowUID = -1;		// The lifelet to follow, forming a snake. If we have none, then we are the leader!
 		
 		#endregion
 		
-		
+
 		
 		
 		#region Properties - these can be accessed by anyone and are visible on the debug display
@@ -65,7 +65,7 @@ namespace LifeSimulation.Races.SnakeRace
 		/// Gets a value indicating whether this instance is following another or not.
 		/// </summary>
 		public bool IsFollowing {
-			get { return _lifeletToFollow != null; }
+			get { return _lifeletToFollowUID != -1; }
 		}
 		
 		#endregion
@@ -88,28 +88,19 @@ namespace LifeSimulation.Races.SnakeRace
 		
 		public override void Simulate() {
 			base.Simulate();
-			
-			// Init
-			Message weHeardTalkAboutFood = null;
-			
+						
 			// Recieving messages?
 			foreach(Message message in audibleMessages()) { 
 				if(message.Contents == '!') {
-					if(message.Sender.UID < this.UID && (_lifeletToFollow == null || message.Sender.UID > _lifeletToFollow.UID)) {
+					if(message.Sender.UID < this.UID && (_lifeletToFollowUID == -1 || message.Sender.UID > _lifeletToFollowUID)) {
 						// Follow this lifelet
-						_lifeletToFollow = message.Sender;
+						_lifeletToFollowUID = message.Sender.UID;
 					}
-				} else if(message.Contents == 'F') {
-					if(_lifeletToFollow == null) {
-						// Register this message
-						weHeardTalkAboutFood = message;
-					} else {
-						// Pass along the message
-						//talk('F');
-					}
-					
-				}
+				} 
 			}
+			
+			// Try to find our next in chain...
+			ShelledLifelet _lifeletToFollow = this.getLifeletByUID(_lifeletToFollowUID);
 			
 			// Are we following the chain?
 			if(_lifeletToFollow != null) {
@@ -118,14 +109,10 @@ namespace LifeSimulation.Races.SnakeRace
 				_direction = _lifeletToFollow.Position - this.Position;
 				
 				// Do we need to catch up?
-				if(_lifeletToFollow.Distance(this) > this.Visibility-4)	_speed = 2.0;
+				if(_lifeletToFollow.Distance(this) > this.Visibility/2)	_speed = 2.0;
 				else 													_speed = 0.0;
 				
-				// Do we see food?
-				foreach(Food food in visibleFood()) {
-					talk('F');
-					break;
-				}
+		
 
 			} else {
 			
@@ -139,17 +126,11 @@ namespace LifeSimulation.Races.SnakeRace
 				
 				// Change direction randomly
 				if(!foodFound) {
-					
-					// Did we hear some talk about food?
-					if(weHeardTalkAboutFood != null) {
-						// Go there
-						_direction = weHeardTalkAboutFood.Position - this.Position;
-					} else {
-						// Randomly change direction
-						if(this.RandomGen.Next(80) == 0) {
-							_direction = new Vector(this.RandomGen.Next(-1,2),this.RandomGen.Next(-1,2));
-							if(_direction.X == 0 && _direction.Y == 0) _direction = new Vector(1,1);
-						}
+				
+					// Randomly change direction
+					if(this.RandomGen.Next(80) == 0) {
+						_direction = new Vector(this.RandomGen.Next(-1,2),this.RandomGen.Next(-1,2));
+						if(_direction.X == 0 && _direction.Y == 0) _direction = new Vector(1,1);
 					}
 				}
 				
@@ -157,9 +138,9 @@ namespace LifeSimulation.Races.SnakeRace
 			
 			// Redistribute energy
 			if(this.Energy > 100) {
-				foreach(Lifelet lifelet in visibleLifelets()) {
+				foreach(ShelledLifelet lifelet in visibleLifelets()) {
 					// Only pass down the chain and only to our race
-					if(lifelet != _lifeletToFollow && lifelet.Type == this.Type) {
+					if(lifelet.UID != _lifeletToFollowUID && lifelet.Type == this.Type) {
 						giveEnergy(lifelet,this.Energy-100);
 						break;
 					}
@@ -181,6 +162,8 @@ namespace LifeSimulation.Races.SnakeRace
 		
 		protected override void debugDraw(Graphics g) {
 			// Draw follow chain
+			ShelledLifelet _lifeletToFollow = this.getLifeletByUID(_lifeletToFollowUID);
+				
 			if(_lifeletToFollow != null) {
 				g.DrawLine(Pens.White,(int)this.X,(int)this.Y,(int)_lifeletToFollow.X,(int)_lifeletToFollow.Y);	
 			}

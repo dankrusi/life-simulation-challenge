@@ -51,6 +51,7 @@ namespace LifeSimulation.Core
 		// World
 		private int _initialLifelets;
 		private SpawnMethod _spawnMethod;
+		private long _age;
 		
 		// Util
 		private Random _randomGen;
@@ -111,6 +112,10 @@ namespace LifeSimulation.Core
 			get { return _stats; }	
 		}
 		
+		public long Age {
+			get { return _age; }	
+		}
+		
 		#endregion
 		
 		
@@ -126,6 +131,7 @@ namespace LifeSimulation.Core
 			_initialLifelets = initialLifelets;
 			_races = races;
 			_spawnMethod = spawnMethod;
+			_age = 0;
 			
 			// Assign a color for each race
 			ArrayList colors = new ArrayList(new Color[]{Color.Red,Color.Blue,Color.Green,Color.Aqua,Color.Lime,Color.Orange});
@@ -164,9 +170,9 @@ namespace LifeSimulation.Core
 		}
 		
 		public void Simulate() {
-			
 			// Init
 			_highlightedLifelet = null;
+			_age++;
 			
 			// Food
 			foreach(Food food in _food) {
@@ -284,7 +290,7 @@ namespace LifeSimulation.Core
 			// Show debug infos
 			if(Config.Debug) {
 				// World...
-				//TODO
+				infos += "Cursor: " + _cursor + "\n";
 				
 				// Statistics
 				foreach(object k in _stats.Keys) {
@@ -320,6 +326,14 @@ namespace LifeSimulation.Core
 		
 		public void DoEnergyTransaction() {
 			
+		}
+		
+		public Lifelet UnshellLifelet(ShelledLifelet shelled) {
+			//TODO: This is not very efficient... Should we re-write LoopList as a Hashtable?
+			foreach(Lifelet lifelet in _lifelets) {
+				if(shelled.UID == lifelet.UID) return lifelet;
+			}
+			return null;
 		}
 		
 		#endregion 
@@ -405,6 +419,7 @@ namespace LifeSimulation.Core
 						
 						// Create and register life
 						Lifelet newLife = (Lifelet)Activator.CreateInstance(lifeletType,this,new Vector(x,y));
+						newLife.VerifyIntegrity();
 						_lifelets.Add(newLife);
 					}
 				}
