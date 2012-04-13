@@ -388,7 +388,7 @@ namespace LifeSimulation.Core
 			
 			// We spawn races around a outside ring
 			if(_spawnMethod == SpawnMethod.GroupedRacesOnRing) {
-				double radiansPerRace = Math.PI / (_races.Count-1);
+				double radiansPerRace = (2*Math.PI) / (_races.Count);
 				int lifeletRandomDispersion = (int)(Config.WorldInitialLifeletsDispersionAmount * (_races.Count/(_races.Count*Config.WorldInitialLifeletsToRaceDispersionRatio)));
 				for(int i = 0; i < _races.Count; i++) {
 					
