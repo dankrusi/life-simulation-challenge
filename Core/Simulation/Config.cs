@@ -120,7 +120,7 @@ namespace LifeSimulation.Core
 		public const double LifeletMaximumVelocityRequest = 3.0;
 		
 		// Vision
-		public const double LifeletVisionRadius = 40.0;
+		public const double LifeletVisionRadius = 80.0;
 		
 		// Attack
 		public const double LifeletMaximumAttackRange = 10.0;
