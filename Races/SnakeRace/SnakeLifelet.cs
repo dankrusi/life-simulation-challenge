@@ -88,10 +88,7 @@ namespace LifeSimulation.Races.SnakeRace
 		
 		public override void Simulate() {
 			base.Simulate();
-			
-			// Init
-			Message weHeardTalkAboutFood = null;
-			
+						
 			// Recieving messages?
 			foreach(Message message in audibleMessages()) { 
 				if(message.Contents == '!') {
@@ -99,20 +96,11 @@ namespace LifeSimulation.Races.SnakeRace
 						// Follow this lifelet
 						_lifeletToFollowUID = message.Sender.UID;
 					}
-				} else if(message.Contents == 'F') {
-					if(_lifeletToFollowUID == -1) {
-						// Register this message
-						weHeardTalkAboutFood = message;
-					} else {
-						// Pass along the message
-						//talk('F');
-					}
-					
-				}
+				} 
 			}
 			
-			//ShelledLifelet _lifeletToFollow = this.getLifeletByUID(_lifeletToFollowUID);
-			ShelledLifelet _lifeletToFollow = null;	
+			// Try to find our next in chain...
+			ShelledLifelet _lifeletToFollow = this.getLifeletByUID(_lifeletToFollowUID);
 			
 			// Are we following the chain?
 			if(_lifeletToFollow != null) {
@@ -121,14 +109,10 @@ namespace LifeSimulation.Races.SnakeRace
 				_direction = _lifeletToFollow.Position - this.Position;
 				
 				// Do we need to catch up?
-				if(_lifeletToFollow.Distance(this) > this.Visibility-4)	_speed = 2.0;
+				if(_lifeletToFollow.Distance(this) > this.Visibility/2)	_speed = 2.0;
 				else 													_speed = 0.0;
 				
-				// Do we see food?
-				foreach(Food food in visibleFood()) {
-					talk('F');
-					break;
-				}
+		
 
 			} else {
 			
@@ -142,17 +126,11 @@ namespace LifeSimulation.Races.SnakeRace
 				
 				// Change direction randomly
 				if(!foodFound) {
-					
-					// Did we hear some talk about food?
-					if(weHeardTalkAboutFood != null) {
-						// Go there
-						_direction = weHeardTalkAboutFood.Position - this.Position;
-					} else {
-						// Randomly change direction
-						if(this.RandomGen.Next(80) == 0) {
-							_direction = new Vector(this.RandomGen.Next(-1,2),this.RandomGen.Next(-1,2));
-							if(_direction.X == 0 && _direction.Y == 0) _direction = new Vector(1,1);
-						}
+				
+					// Randomly change direction
+					if(this.RandomGen.Next(80) == 0) {
+						_direction = new Vector(this.RandomGen.Next(-1,2),this.RandomGen.Next(-1,2));
+						if(_direction.X == 0 && _direction.Y == 0) _direction = new Vector(1,1);
 					}
 				}
 				
@@ -162,7 +140,7 @@ namespace LifeSimulation.Races.SnakeRace
 			if(this.Energy > 100) {
 				foreach(ShelledLifelet lifelet in visibleLifelets()) {
 					// Only pass down the chain and only to our race
-					if(lifelet.UID != _lifeletToFollow.UID && lifelet.Type == this.Type) {
+					if(lifelet.UID != _lifeletToFollowUID && lifelet.Type == this.Type) {
 						giveEnergy(lifelet,this.Energy-100);
 						break;
 					}

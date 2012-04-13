@@ -151,13 +151,28 @@ namespace LifeSimulation.Core.GUI
 		
 		private void onTimer(object sender, ElapsedEventArgs e)
 	    {
+			// Make sure the simulation doesnt overtake our timer...
+			_timer.Stop();
+			
 			// Just tell the world to simulate one step
-			_world.Simulate();
+			try{
+				_world.Simulate();
+			} catch(Exception error) {
+				// Mono doesnt invoke the error all the way through the call stack of the timer thread so we need to crash the application ourselves...
+				#if __MonoCS__
+					System.Console.WriteLine(error);
+					Application.Exit();
+				#else 
+					throw error;
+				#endif
+			}
 			
 			// Tell GUI backend to repaint
 			//BUG: Cocoa always draws in a different thread so this will cause problems on Intel Macs...
-            //this.Invalidate();
-			this.Refresh();
+            this.Invalidate();
+			//this.Refresh();
+			
+			_timer.Start();
 	    }
 		
 		#endregion

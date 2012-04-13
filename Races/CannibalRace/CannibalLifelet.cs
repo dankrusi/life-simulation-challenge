@@ -41,8 +41,8 @@ namespace LifeSimulation.Races.CannibalRace
 		
 		#region Private Variables
 		
-		private ShelledLifelet _leader; 		// Cannibal leader
-		private double _speed; 					// Our speed we want
+		private long _leaderUID = -1; 				// Cannibal leader
+		private double _speed; 						// Our speed we want
 		
 		#endregion
 		
@@ -63,7 +63,7 @@ namespace LifeSimulation.Races.CannibalRace
 		/// TODO
 		/// </summary>
 		public bool IsCannibalLeader {
-			get { return _leader == null; }
+			get { return _leaderUID == -1; }
 		}
 		
 		#endregion
@@ -80,23 +80,26 @@ namespace LifeSimulation.Races.CannibalRace
 			_speed = 1.0;
 			
 			// Initial message to find each other
-			//talk('!');
+			talk('!');
 		}
 		
 		public override void Simulate() {
 			base.Simulate();
-			return;
+			
 			// Recieving messages?
 			foreach(Message message in audibleMessages()) { 
 				if(message.Contents == '!') {
-					if(message.Sender.UID < this.UID && (_leader == null || message.Sender.UID < _leader.UID)) {
-						_leader = message.Sender;
+					if(message.Sender.UID < this.UID && (_leaderUID == -1 || message.Sender.UID < _leaderUID)) {
+						_leaderUID = message.Sender.UID;
 					}
 				} 
 			}
 			
+			// Try to find our leader...
+			ShelledLifelet leader = this.getLifeletByUID(_leaderUID);
+			
 			// Cannibal leader?
-			if(_leader == null) {
+			if(leader == null) {
 				
 				// Eat
 				bool foundSomethingToEat = false;
@@ -113,7 +116,7 @@ namespace LifeSimulation.Races.CannibalRace
 			} else {
 				
 				// Move in the sacrifice location
-				this.moveToDestination(_leader.Position,_speed);
+				this.moveToDestination(leader.Position,_speed);
 			}
 			
 			

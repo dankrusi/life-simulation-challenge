@@ -170,7 +170,6 @@ namespace LifeSimulation.Core
 		}
 		
 		public void Simulate() {
-			
 			// Init
 			_highlightedLifelet = null;
 			_age++;
@@ -420,6 +419,7 @@ namespace LifeSimulation.Core
 						
 						// Create and register life
 						Lifelet newLife = (Lifelet)Activator.CreateInstance(lifeletType,this,new Vector(x,y));
+						newLife.VerifyIntegrity();
 						_lifelets.Add(newLife);
 					}
 				}

@@ -374,6 +374,17 @@ namespace LifeSimulation.Core
 			return new ShelledLifelet(this,_world);
 		}
 		
+		public void VerifyIntegrity() {
+			
+			// Make sure there are no static fields
+			foreach (System.Reflection.FieldInfo fi in this.GetType().GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static))
+			{
+			   throw new Exception("Static fields detected in " + this.Type + ": " + fi.Name);
+			}
+
+			
+		}
+		
 		#endregion
 		
 		

@@ -33,7 +33,9 @@ using System.Collections.Generic;
 namespace LifeSimulation.Core
 {
 	/// <summary>
-	/// The Lifelet class represents a single lifeform in the simulation. 
+	/// The ShelledLifelet class represents a protected Lifelet which is only accessable for one specific
+	/// simulation step. This creates an overhead but ensures that people can't cheat by storing handles
+	/// to all the lifelets they come across...
 	/// </summary>
 	public class ShelledLifelet
 	{
@@ -178,7 +180,9 @@ namespace LifeSimulation.Core
 		#region Private Methods
 		
 		private void checkIfValid() {
-			if(!this.IsValid) throw new Exception("The shelled lifelet handle is no longer valid. Shelled lifelets may only be accessed for a single simulation step.");
+			if(!this.IsValid) {
+				throw new Exception("The shelled lifelet handle is no longer valid. Shelled lifelets may only be accessed for a single simulation step.");
+			}
 		}
 		
 		#endregion
