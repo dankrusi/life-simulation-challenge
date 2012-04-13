@@ -49,6 +49,7 @@
     <Compile Include="Util\Math2.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Simulation\Obstacle.cs" />
+    <Compile Include="Simulation\ShelledLifelet.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
