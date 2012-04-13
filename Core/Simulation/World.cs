@@ -364,7 +364,7 @@ namespace LifeSimulation.Core
 			// Loop all dll files
 			System.IO.DirectoryInfo binDir = new System.IO.DirectoryInfo(System.Windows.Forms.Application.StartupPath);
 			foreach(System.IO.DirectoryInfo dir in binDir.Parent.GetDirectories(folder)) {
-				foreach(string file in System.IO.Directory.GetFiles(dir.ToString(),"*.dll")) {
+				foreach(string file in System.IO.Directory.GetFiles(dir.FullName,"*.dll")) {
 					
 					// Load the dll
 					System.Reflection.Assembly dll = System.Reflection.Assembly.LoadFrom(file);

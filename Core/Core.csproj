@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -39,8 +39,12 @@
     <Compile Include="Simulation\World.cs" />
     <Compile Include="Util\Vector.cs" />
     <Compile Include="Util\LoopList.cs" />
-    <Compile Include="GUI\Viewport.cs" />
-    <Compile Include="GUI\StartScreen.cs" />
+    <Compile Include="GUI\Viewport.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\StartScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="GUI\App.cs" />
     <Compile Include="Util\Math2.cs" />
     <Compile Include="AssemblyInfo.cs" />
@@ -51,7 +55,5 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Util\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
