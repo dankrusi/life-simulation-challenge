@@ -11,15 +11,11 @@ namespace LifeSimulation.Races.SquadronRace
 		
 		#region Private Variables
 		
-		private Vector _direction; 					// The current direction of our lifelet
-		private Vector _randDirection;				// Just a helpful random Vector
-		private Vector _toMapCenter;
-		private Vector _mapCenter;
 		private double _speed; 						// Our speed we want
+		private double _formationPosition;
 		
 		
 		private long _leaderUID = -1; 				// Squadron leader
-		private bool _hasFormation;
 		
 		#endregion
 		
@@ -45,12 +41,7 @@ namespace LifeSimulation.Races.SquadronRace
 		{
 			// Init
 			_speed = 2.0;
-			_randDirection = new Vector(this.RandomGen.Next(-1,2),this.RandomGen.Next(-1,2));
-			//_toMapCenter = new Vector(0 - this.X, 0 - this.Y);
-			//_mapCenter = new Vector(0.0, 0.0);
-			
-			_direction = _randDirection;
-			_hasFormation = false;
+			_formationPosition = this.RandomGen.Next(0,2) * 2*Math.PI; // angle
 			
 			// Initial message to find each other
 			talk('!');
@@ -59,8 +50,7 @@ namespace LifeSimulation.Races.SquadronRace
 		
 		// Formation Circle around leader
 		public Vector formCircle(Double radius, Vector center) {
-			double phi = this.RandomGen.Next(0,2) * 2*Math.PI;
-			_hasFormation = true;
+			double phi = _formationPosition;
 			return new Vector(radius * Math.Cos(phi) - center.X, radius * Math.Cos(phi) - center.Y);
 		}
 		
@@ -70,8 +60,7 @@ namespace LifeSimulation.Races.SquadronRace
 			// Find the squadron leader
 			foreach(Message message in audibleMessages()) { 
 				if(message.Contents == '!') {
-					if(message.Sender.UID < this.UID && (_leaderUID == -1 || message.Sender.UID > _leaderUID)) {
-						// Follow this lifelet
+					if(message.Sender.UID < this.UID && (_leaderUID == -1 || message.Sender.UID < _leaderUID)) {
 						_leaderUID = message.Sender.UID;
 					}
 				} 
@@ -81,10 +70,9 @@ namespace LifeSimulation.Races.SquadronRace
 			ShelledLifelet leader = this.getLifeletByUID(_leaderUID);
 			
 			// Guard the squadron leader
-			if(leader != null && _hasFormation == false) {
-				if (this.UID != _leaderUID) {
-					this.move(formCircle(3,leader.Position));
-				}
+			if(leader != null) {
+				this.moveToDestination(formCircle(10,leader.Position),_speed); // this doesnt seem to be working...
+				this.moveToDestination(leader.Position,_speed); // just to see the leader selection working, this works
 			}
 			
 			
