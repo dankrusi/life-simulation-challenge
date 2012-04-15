@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomRace", "Races\RandomR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CannibalRace", "Races\CannibalRace\CannibalRace.csproj", "{4307BEFD-6E97-4869-A844-7F9995A2C393}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DanimatorRace", "Races\DanimatorRace\DanimatorRace.csproj", "{70617696-637A-4999-9180-D67F40DAE64F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -27,6 +29,10 @@ Global
 		{4307BEFD-6E97-4869-A844-7F9995A2C393}.Debug|x86.Build.0 = Debug|Any CPU
 		{4307BEFD-6E97-4869-A844-7F9995A2C393}.Release|x86.ActiveCfg = Release|Any CPU
 		{4307BEFD-6E97-4869-A844-7F9995A2C393}.Release|x86.Build.0 = Release|Any CPU
+		{70617696-637A-4999-9180-D67F40DAE64F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{70617696-637A-4999-9180-D67F40DAE64F}.Debug|x86.Build.0 = Debug|Any CPU
+		{70617696-637A-4999-9180-D67F40DAE64F}.Release|x86.ActiveCfg = Release|Any CPU
+		{70617696-637A-4999-9180-D67F40DAE64F}.Release|x86.Build.0 = Release|Any CPU
 		{A27F2F92-D472-4ABA-998F-2DBDA70D0BDD}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{A27F2F92-D472-4ABA-998F-2DBDA70D0BDD}.Debug|x86.Build.0 = Debug|Any CPU
 		{A27F2F92-D472-4ABA-998F-2DBDA70D0BDD}.Release|x86.ActiveCfg = Release|Any CPU

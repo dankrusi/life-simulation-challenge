@@ -27,13 +27,68 @@
 using System;
 using LifeSimulation.Core;
 
-namespace DanimatorRace
+namespace LifeSimulation.Races.DanimatorRace
 {
-	public class DanimatorLifelet
+	
+	
+	/// <summary>
+	/// The Snake Lifelet forms a chain with other lifelets of the same race, moving through the world like a snake.
+	/// This class is meant as an example.
+	/// </summary>
+	public class DanimatorLifelet : Lifelet
 	{
-		public DanimatorLifelet ()
-		{
+		
+		
+		
+		#region Private Variables
+		
+		
+		#endregion
+		
+
+		
+		
+		#region Properties - these can be accessed by anyone and are visible on the debug display
+		
+		public override string Race {
+			get { return "Danimator"; }
 		}
+		
+		public override string Author {
+			get { return "Dan Krusi"; }
+		}
+		
+		
+		
+		#endregion
+		
+		
+		
+		
+		
+		#region Public Methods
+		
+		public DanimatorLifelet(World world, Vector pos) : base(world,pos)
+		{
+			// Init
+			
+		}
+		
+		public override void Simulate() {
+			base.Simulate();
+						
+			
+		}
+		
+		#endregion
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 }
 
