@@ -19,7 +19,6 @@ namespace LifeSimulation.Races.SquadronRace
 		
 		
 		private long _leaderUID = -1; 				// Squadron leader
-		private ShelledLifelet leader;
 		private bool _hasFormation;
 		
 		#endregion
@@ -58,6 +57,7 @@ namespace LifeSimulation.Races.SquadronRace
 			
 		}
 		
+		// Formation Circle around leader
 		public Vector formCircle( Double radius, Vector center) {
 			double phi = this.RandomGen.Next(0,2) * 2*Math.PI;
 			_hasFormation = true;
