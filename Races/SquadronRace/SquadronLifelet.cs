@@ -20,6 +20,7 @@ namespace LifeSimulation.Races.SquadronRace
 		
 		private long _leaderUID = -1; 				// Squadron leader
 		private ShelledLifelet leader;
+		private bool _hasFormation;
 		
 		#endregion
 		
@@ -46,10 +47,11 @@ namespace LifeSimulation.Races.SquadronRace
 			// Init
 			_speed = 2.0;
 			_randDirection = new Vector(this.RandomGen.Next(-1,2),this.RandomGen.Next(-1,2));
-			_toMapCenter = new Vector(0 - this.X, 0 - this.Y);
-			_mapCenter = new Vector(0.0, 0.0);
+			//_toMapCenter = new Vector(0 - this.X, 0 - this.Y);
+			//_mapCenter = new Vector(0.0, 0.0);
 			
-			//_direction = _toMapCenter;
+			_direction = _randDirection;
+			_hasFormation = false;
 			
 			// Initial message to find each other
 			talk('!');
@@ -58,6 +60,7 @@ namespace LifeSimulation.Races.SquadronRace
 		
 		public Vector formCircle( Double radius, Vector center) {
 			double phi = this.RandomGen.Next(0,2) * 2*Math.PI;
+			_hasFormation = true;
 			return new Vector(radius * Math.Cos(phi) - center.X, radius * Math.Cos(phi) - center.Y);
 		}
 		
@@ -78,12 +81,9 @@ namespace LifeSimulation.Races.SquadronRace
 			ShelledLifelet leader = this.getLifeletByUID(_leaderUID);
 			
 			// Guard the squadron leader
-			if(leader != null) {
+			if(leader != null && _hasFormation == false) {
 				if (this.UID != _leaderUID) {
 					this.move(formCircle(3,leader.Position));
-				} else {
-					//this.move(_toMapCenter);
-					this.moveToDestination(_mapCenter, 1.0);
 				}
 			}
 			
