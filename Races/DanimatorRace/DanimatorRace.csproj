@@ -36,4 +36,10 @@
     <Compile Include="DanimatorLifelet.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Core.csproj">
+      <Project>{355C13A8-6429-449A-A721-BC55149151D1}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
