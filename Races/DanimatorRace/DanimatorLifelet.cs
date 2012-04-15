@@ -77,7 +77,7 @@ namespace LifeSimulation.Races.DanimatorRace
 		public override void Simulate() {
 			base.Simulate();
 						
-			
+			this.moveRandomly(2.0);
 		}
 		
 		#endregion
