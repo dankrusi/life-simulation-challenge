@@ -13,6 +13,7 @@ namespace LifeSimulation.Races.SquadronRace
 		
 		private Vector _direction; 					// The current direction of our lifelet
 		private Vector _randDirection;				// Just a helpful random Vector
+		private Vector _toMapCenter;
 		private Vector _mapCenter;
 		private double _speed; 						// Our speed we want
 		
@@ -45,9 +46,10 @@ namespace LifeSimulation.Races.SquadronRace
 			// Init
 			_speed = 2.0;
 			_randDirection = new Vector(this.RandomGen.Next(-1,2),this.RandomGen.Next(-1,2));
-			_mapCenter = new Vector(0 - this.X, 0 - this.Y);
+			_toMapCenter = new Vector(0 - this.X, 0 - this.Y);
+			_mapCenter = new Vector(0.0, 0.0);
 			
-			_direction = _mapCenter;
+			//_direction = _toMapCenter;
 			
 			// Initial message to find each other
 			talk('!');
@@ -76,10 +78,13 @@ namespace LifeSimulation.Races.SquadronRace
 			ShelledLifelet leader = this.getLifeletByUID(_leaderUID);
 			
 			// Guard the squadron leader
-			if (this.UID != _leaderUID) {
-				move(formCircle(3,leader.Position));
-			} else {
-				this.move(_mapCenter);
+			if(leader != null) {
+				if (this.UID != _leaderUID) {
+					this.move(formCircle(3,leader.Position));
+				} else {
+					//this.move(_toMapCenter);
+					this.moveToDestination(_mapCenter, 1.0);
+				}
 			}
 			
 			
